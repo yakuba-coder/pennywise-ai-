@@ -14,6 +14,7 @@ async function hindsightRequest(path, body) {
   }, 4500);
 }
 async function recallMemory(query) {
+
   if (!process.env.HINDSIGHT_API_KEY || !process.env.HINDSIGHT_BANK_ID) return { status: "not-configured", memories: [] };
   const bank = encodeURIComponent(process.env.HINDSIGHT_BANK_ID);
   const start = Date.now();
@@ -62,7 +63,8 @@ export default async function handler(request) {
   if (!process.env.GEMINI_API_KEY) return json(503, { error: "Gemini is not configured yet. Add GEMINI_API_KEY in Vercel Environment Variables, then redeploy." });
 
   let memory = { status: "disabled", memories: [] };
-  if (memoryEnabled) memory = await recallMemory(body.message);
+  // Temporarily disable Hindsight while debugging Gemini.
+memory = { status: "temporarily-disabled", memories: [] };
   const context = typeof body.context === "string" ? body.context.slice(0, 1800) : "";
   const memoryText = memory.memories.length ? `\nRelevant memories retrieved from Hindsight (use only if relevant):\n- ${memory.memories.join("\n- ")}` : "";
   const contents = [
@@ -87,7 +89,7 @@ export default async function handler(request) {
     const reply = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("").trim();
     if (!reply) return json(502, { error: "Gemini returned no usable text. Please retry." });
     console.info("[gemini] success", "duration_ms", Date.now()-start);
-    const retention = memoryEnabled ? await retainMemory(body.message, reply) : "disabled";
+    const retention = "temporarily-disabled";
     return json(200, {
       reply,
       memory: { recall: memory.status, recallCount: memory.memories.length, retention, demoOnly: process.env.DEMO_MODE !== "false" }
