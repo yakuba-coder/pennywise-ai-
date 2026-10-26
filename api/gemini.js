@@ -69,7 +69,7 @@ export default async function handler(request) {
     ...history.map(m => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] })),
     { role: "user", parts: [{ text: `${body.message.trim()}${context ? `\n\nRelevant dashboard summary supplied by user:\n${context}` : ""}${memoryText}` }] }
   ];
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
   const start = Date.now();
   try {
     const r = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
