@@ -39,7 +39,7 @@ If PowerShell blocks `npm`, use `npm.cmd` as shown; do not change execution poli
 | Name | Required | Value |
 |---|---|---|
 | `GEMINI_API_KEY` | For AI chat | Create a key in Google AI Studio. Keep it private and add it only in Vercel settings. |
-| `GEMINI_MODEL` | Recommended | `gemini-2.5-flash` by default; verify available models for your key/account if Google changes availability. |
+| `GEMINI_MODEL` | Recommended | `gemini-3.8-flash` by default; verify available models for your key/account if Google changes availability. |
 | `HINDSIGHT_API_KEY` | For memory | Create/copy an API key from Hindsight Cloud's Connect page. Never share it in chat or commit it. |
 | `HINDSIGHT_BASE_URL` | Optional | `https://api.hindsight.vectorize.io` for Hindsight Cloud. |
 | `HINDSIGHT_BANK_ID` | For memory | A dedicated bank ID created/available in your Hindsight workspace. Do not reuse a personal or multi-user bank. |
